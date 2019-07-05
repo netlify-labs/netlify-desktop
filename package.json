@@ -16,17 +16,32 @@
     "build": "nuxt build && electron-builder"
   },
   "dependencies": {
-    "nuxt": "^1.4.0"
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "@fortawesome/vue-fontawesome": "^0.1.6",
+    "app-root-path": "^2.2.1",
+    "configstore": "^5.0.0",
+    "electron-is-dev": "^1.1.0",
+    "electron-positioner": "^4.1.0",
+    "lodash.isequal": "^4.5.0",
+    "lodash.merge": "^4.6.1",
+    "netlify": "^2.4.6",
+    "nuxt": "^2.8.1"
+  },
+  "resolutions": {
+    "browserslist": "4.6.2",
+    "caniuse-lite": "1.0.30000974"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.1",
-    "cross-env": "^5.1.4",
-    "electron": "2.0.0-beta.7",
-    "electron-builder": "^20.8.1",
+    "babel-eslint": "^10.0.2",
+    "cross-env": "^5.2.0",
+    "electron": "5.0.4",
+    "electron-builder": "^20.43.0",
     "electron-devtools-installer": "^2.2.3",
-    "eslint": "^4.15.0",
-    "eslint-friendly-formatter": "^3.0.0",
-    "eslint-loader": "^1.7.1",
-    "eslint-plugin-vue": "^4.0.0"
+    "eslint": "^5.16.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-vue": "^5.2.2",
+    "webpack": "^4.35.0"
   }
 }

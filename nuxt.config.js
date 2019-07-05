@@ -1,6 +1,7 @@
 module.exports = {
 	mode: 'spa',
 	head: {title: 'netlify-desktop'}, // Headers of the page
+	globalName: 'netlify',
 	loading: false, // Disable default loading bar
 	build: {
 		extend (config, { isDev, isClient }) {
@@ -19,6 +20,13 @@ module.exports = {
 	},
 	dev: process.env.NODE_ENV === 'DEV',
 	css: [
-		'@/assets/css/global.css'
-	]
+		'@/assets/css/global.css',
+  		'@fortawesome/fontawesome-svg-core/styles.css'
+	],
+	plugins: [
+		'~/plugins/fontawesome.js'
+	],
+	router: {
+	    middleware: ['back-button', 'loading']
+	}
 }
