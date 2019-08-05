@@ -73,12 +73,8 @@ body {
 	border-radius: 5px;
 }
 
-.no-scroll-panel {
-	overflow: hidden;
-}
-
 .scroll-panel {
-	overflow: scroll;
+	overflow: auto;
 }
 
 ul {

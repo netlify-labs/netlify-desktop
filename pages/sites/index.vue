@@ -1,5 +1,5 @@
 <template>
-  <div class="no-scroll-panel">
+  <div class="scroll-panel">
     <Loading v-if="isLoading"></Loading>
     <FilteredList
       v-else
@@ -15,30 +15,28 @@
         <BlockLink
           :to="{ name: 'sites-id', params: { id: data.id } }"
           class="site-name"
-        >
-          {{ data.custom_domain || data.name }}
-        </BlockLink>
+        >{{ data.custom_domain || data.name }}</BlockLink>
         <font-awesome-icon icon="chevron-right" class="icon" />
       </template>
     </FilteredList>
   </div>
 </template>
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex';
-import Loading from '~/components/Loading.vue';
-import BlockLink from '~/components/ui/BlockLink.vue';
-import FilteredList from '~/components/ui/FilteredList.vue';
+import { mapActions, mapState, mapGetters } from "vuex";
+import Loading from "~/components/Loading.vue";
+import BlockLink from "~/components/ui/BlockLink.vue";
+import FilteredList from "~/components/ui/FilteredList.vue";
 
 export default {
   head() {
     return {
-      title: `Sites (${this.sites.length})`,
+      title: `Sites (${this.sites.length})`
     };
   },
   components: {
     BlockLink,
     FilteredList,
-    Loading,
+    Loading
   },
   mounted() {
     if (this.sites.length === 0) {
@@ -46,19 +44,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('sites', ['isLoading']),
-    ...mapState('sites', ['sites']),
+    ...mapGetters("sites", ["isLoading"]),
+    ...mapState("sites", ["sites"])
   },
   methods: {
-    ...mapActions('sites', ['getSites']),
-  },
+    ...mapActions("sites", ["getSites"])
+  }
 };
 </script>
 <style scoped>
 .sites-area {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  position: relative;
 }
 
 .no-preview {
