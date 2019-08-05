@@ -25,6 +25,7 @@
     "electron-positioner": "^4.1.0",
     "lodash.isequal": "^4.5.0",
     "lodash.merge": "^4.6.1",
+    "menubar": "^6.0.7",
     "netlify": "^2.4.6",
     "nuxt": "^2.8.1"
   },
