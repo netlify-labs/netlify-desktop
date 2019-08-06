@@ -15,6 +15,24 @@ body {
 	font-weight: 400;
 	line-height: 1.5;
 }
+
+.visuallyhidden {
+	border: 0!important;
+	clip: rect(0 0 0 0)!important;
+	height: 1px!important;
+	margin: -1px!important;
+	overflow: hidden!important;
+	padding: 0!important;
+	position: absolute!important;
+	white-space: nowrap!important;
+	width: 1px!important;
+}
+
+.monospace {
+	font-family: SFMono-Regular,Menlo,Consolas,"Liberation Mono",Courier,monospace;
+	font-size: 90%;
+}
+
 *, *:before, *:after {
 	box-sizing: border-box;
 	margin: 0;
