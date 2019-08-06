@@ -35,16 +35,9 @@ const mb = menubar({
 });
 
 mb.on('after-create-window', () => {
-  mb.window.setAlwaysOnTop(true);
+  mb.window.setAlwaysOnTop(config.dev);
 
   mb.window.webContents.on('will-navigate', (event, url) => {
-    if (!url.startsWith('http://localhost')) {
-      event.preventDefault();
-      shell.openExternal(url);
-    }
-  });
-
-  win.webContents.on('will-navigate', (event, url) => {
     if (!url.startsWith('http://localhost')) {
       event.preventDefault();
       shell.openExternal(url);
