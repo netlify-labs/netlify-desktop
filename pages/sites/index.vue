@@ -5,14 +5,17 @@
       v-else
       :data="sites"
       :filterKeys="['custom_domain', 'name']"
-      placeholder="Search Sites"
+      placeholder="Search site"
     >
       <template #row="{ data }">
         <img
           :src="data.screenshot_url || require('~/assets/img/no-preview.png')"
           class="no-preview"
         />
-        <BlockLink :to="'/sites/' + data.id" class="site-name">
+        <BlockLink
+          :to="{ name: 'sites-id', params: { id: data.id } }"
+          class="site-name"
+        >
           {{ data.custom_domain || data.name }}
         </BlockLink>
         <font-awesome-icon icon="chevron-right" class="icon" />

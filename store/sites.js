@@ -38,6 +38,9 @@ export const actions = {
       throw e;
     }
   },
+  resetCurrentSite({ commit }) {
+    commit('RESET_CURRENT_SITE');
+  },
 };
 
 export const mutations = {
@@ -61,5 +64,8 @@ export const mutations = {
   },
   RECEIVE_SITE_ERROR(state) {
     state.state = 'error';
+  },
+  RESET_CURRENT_SITE(state) {
+    state.currentSite = {};
   },
 };

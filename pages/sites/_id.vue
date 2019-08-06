@@ -27,7 +27,10 @@ export default {
     ...mapGetters('sites', ['isLoading']),
   },
   methods: {
-    ...mapActions('sites', ['getSite']),
+    ...mapActions('sites', ['getSite', 'resetCurrentSite']),
+  },
+  beforeDestroy() {
+    this.resetCurrentSite();
   },
 };
 </script>
