@@ -64,4 +64,8 @@ export default {
   margin-right: 10px;
   border-radius: 4px;
 }
+
+.icon {
+  margin-left: auto;
+}
 </style>

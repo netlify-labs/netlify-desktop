@@ -7,16 +7,30 @@
           v-if="backButton"
         ></font-awesome-icon>
       </a>
-      <span class="title">{{ title }}</span>
-      <img class="avatar" :src="userAvatar" v-if="loggedIn" />
+      <h1 class="title">{{ title }}</h1>
+      <img v-if="loggedIn" class="avatar" :src="userAvatar" />
     </header>
-    <nuxt />
+    <nuxt ref="page" />
     <footer class="footer"></footer>
   </div>
 </template>
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex';
 export default {
+  head() {
+    const self = this;
+
+    return {
+      changed(meta) {
+        self.title = meta.title;
+      },
+    };
+  },
+  data() {
+    return {
+      title: '',
+    };
+  },
   computed: {
     ...mapState('nav', ['backButton']),
     ...mapState('auth', ['loggedIn']),
@@ -26,10 +40,6 @@ export default {
     previousScreen() {
       this.$router.go(-1);
     },
-    ...mapMutations('nav', ['setTitle']),
-  },
-  mounted() {
-    console.log(this);
   },
 };
 </script>
@@ -55,6 +65,7 @@ export default {
 }
 
 .title {
+  font-size: 16px;
   color: white;
   flex-grow: 1;
   text-align: center;

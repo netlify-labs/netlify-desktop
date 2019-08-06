@@ -26,6 +26,18 @@ export const actions = {
       throw e;
     }
   },
+  async getSite({ commit }, site_id) {
+    commit('REQUEST_SITE');
+
+    try {
+      const site = await auth.api.getSite({ site_id });
+
+      commit('RECEIVE_SITE_SUCCESS', site);
+    } catch (e) {
+      commit('RECEIVE_SITE_ERROR');
+      throw e;
+    }
+  },
 };
 
 export const mutations = {
@@ -37,6 +49,17 @@ export const mutations = {
     state.state = 'success';
   },
   RECEIVE_SITES_ERROR(state) {
+    state.state = 'error';
+  },
+
+  REQUEST_SITE(state) {
+    state.state = 'loading';
+  },
+  RECEIVE_SITE_SUCCESS(state, payload) {
+    state.currentSite = payload;
+    state.state = 'success';
+  },
+  RECEIVE_SITE_ERROR(state) {
     state.state = 'error';
   },
 };
