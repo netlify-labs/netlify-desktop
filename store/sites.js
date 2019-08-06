@@ -1,53 +1,42 @@
-export const state = {
+import auth from '~/helpers/auth-helper';
+
+export const state = () => ({
   sites: [],
+  state: '',
   currentSite: {},
-  currentDeploys: []
-}
+  currentDeploys: [],
+});
 
 export const getters = {
-  siteTitle() {
-    return (site) => {
-      return site.custom_domain || site.name
+  isLoading: state => state.state === 'loading',
+  isError: state => state.state === 'error',
+};
+
+export const actions = {
+  async getSites({ commit }) {
+    commit('REQUEST_SITES');
+
+    try {
+      const sites = await auth.api.listSites();
+
+      commit('RECEIVE_SITES_SUCCESS', sites);
+    } catch (e) {
+      commit('RECEIVE_SITES_ERROR');
+
+      throw e;
     }
   },
-
-  deployStatus() {
-    return (site) => {
-      const deployed = !!site.deploy_id
-      return {'deployed': deployed}
-    }
-  },
-
-  screenshot() {
-    return (site) => {
-      if(site.screenshot_url) {
-        return site.screenshot_url
-      }
-      return require('~/assets/img/no-preview.png');
-    }
-  },
-
-  isDeployed() {
-    return (site) => {
-      return !!site.deploy_id
-    }
-  },
-
-  shortenCommitRef() {
-    return (ref) => {
-      return ref ? ref.slice(0, 7) : ''
-    }
-  }
-}
+};
 
 export const mutations = {
-  setSites (state, sites) {
-    state.sites = sites
+  REQUEST_SITES(state) {
+    state.state = 'loading';
   },
-  setCurrentSite (state, currentSite) {
-    state.currentSite = currentSite
+  RECEIVE_SITES_SUCCESS(state, payload) {
+    state.sites = payload;
+    state.state = 'success';
   },
-  setCurrentDeploys (state, currentDeploys) {
-    state.currentDeploys = currentDeploys
-  }
-}
+  RECEIVE_SITES_ERROR(state) {
+    state.state = 'error';
+  },
+};
