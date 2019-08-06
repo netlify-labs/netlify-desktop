@@ -1,66 +1,58 @@
 <template>
   <div class="no-scroll-panel">
-    <Loading v-if="loading"></Loading>
-    <div class="sites-area" v-else>
-      <input type="text" class="search" v-model="search" placeholder="Search Sites">
-      <ul class="sites">
-        <li class="site" v-for="site in filteredSites" :key="site.id">
-          <font-awesome-icon icon="circle" class="deploy-status" :class="deployStatus(site)"></font-awesome-icon>
-          <img :src="screenshot(site)" class="no-preview">
-          <NuxtLink :to="'/sites/'+site.id" class="site-name">{{ siteTitle(site) }}</NuxtLink>
-          <font-awesome-icon icon="chevron-right" class="icon"></font-awesome-icon>
-        </li>
-      </ul>
-    </div>
+    <Loading v-if="isLoading"></Loading>
+    <FilteredList
+      v-else
+      :data="sites"
+      :filterKeys="['custom_domain', 'name']"
+      placeholder="Search site"
+    >
+      <template #row="{ data }">
+        <img
+          :src="data.screenshot_url || require('~/assets/img/no-preview.png')"
+          class="no-preview"
+        />
+        <BlockLink
+          :to="{ name: 'sites-id', params: { id: data.id } }"
+          class="site-name"
+        >
+          {{ data.custom_domain || data.name }}
+        </BlockLink>
+        <font-awesome-icon icon="chevron-right" class="icon" />
+      </template>
+    </FilteredList>
   </div>
 </template>
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex'
-import authHelper from "~/helpers/auth-helper"
-import Loading from "~/components/Loading.vue"
+import { mapActions, mapState, mapGetters } from 'vuex';
+import Loading from '~/components/Loading.vue';
+import BlockLink from '~/components/ui/BlockLink.vue';
+import FilteredList from '~/components/ui/FilteredList.vue';
+
 export default {
-  components: {
-    Loading
-  },
-  async mounted() {
-    const sites = await authHelper.api.listSites()
-    this.setSites(sites)
-    this.setTitle(`Sites (${this.sites.length})`)
-    this.setLoading(false)
-  },
-  data() {
+  head() {
     return {
-      search: ''
+      title: `Sites (${this.sites.length})`,
+    };
+  },
+  components: {
+    BlockLink,
+    FilteredList,
+    Loading,
+  },
+  mounted() {
+    if (this.sites.length === 0) {
+      this.getSites();
     }
   },
   computed: {
-    filteredSites() {
-      return this.sites.filter(site => {
-        return this.siteTitle(site).toLowerCase().indexOf(this.search.toLowerCase()) > -1
-      })
-    },
-    ...mapGetters('sites', [
-      'siteTitle',
-      'deployStatus',
-      'screenshot'
-    ]),
-    ...mapState('sites', [
-      'sites'
-    ]),
-    ...mapState('nav', [
-      'loading'
-    ])
+    ...mapGetters('sites', ['isLoading']),
+    ...mapState('sites', ['sites']),
   },
   methods: {
-    ...mapMutations('sites', [
-      'setSites'
-    ]),
-    ...mapMutations('nav', [
-      'setTitle',
-      'setLoading'
-    ])
-  }
-}
+    ...mapActions('sites', ['getSites']),
+  },
+};
 </script>
 <style scoped>
 .sites-area {
@@ -69,50 +61,14 @@ export default {
   overflow: hidden;
 }
 
-.deploy-status {
-  margin-right: 10px;
-  font-size: 0.6rem;
-  color: red;
-}
-
 .no-preview {
   width: 32px;
-  border: 1px solid #CCC;
+  border: 1px solid #ccc;
   margin-right: 10px;
   border-radius: 4px;
 }
 
-.deploy-status.deployed {
-  color: green;
-}
-
-.search {
-  font-size: 1rem;
-}
-
-.sites {
-  overflow: scroll;
-  flex-grow: 1;
-}
-.site {
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.site:hover {
-  background-color: rgba(14,30,37,.05);
-}
-
-.site-name {
-  font-weight: bold;
-  flex-grow: 1;
-  text-decoration: none;
-  color: black;
-}
-
-.site:nth-child(2n) {
-  background-color: rgba(14,30,37,.02);
+.icon {
+  margin-left: auto;
 }
 </style>

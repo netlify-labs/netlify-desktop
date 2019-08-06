@@ -1,78 +1,44 @@
 <template>
   <div class="scroll-panel">
-    <template v-if="loading">
-      <Loading></Loading>
-    </template>
-    <template v-else>
-      <div class="site-details">
-        <h3>{{ currentSite.name }}</h3>
-        <section v-if="isDeployed(currentSite)">
-          <h3>Production Deploys</h3>
-          <ul>
-            <li v-for="deploy in currentDeploys" :key="deploy.id">
-              {{deploy.context}}
-              {{deploy.branch}}
-              {{shortenCommitRef(deploy.commit_ref)}}
-              {{deploy.title}}
-            </li>
-          </ul>
-        </section>
-        <p v-else class="alert alert-warning">Not yet deployed</p>
-      </div>
-    </template>
+    <Loading v-if="isLoading" />
+    <div v-else class="site-details">
+      <h3>{{ currentSite.name }}</h3>
+    </div>
   </div>
 </template>
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex'
-import Loading from "~/components/Loading.vue"
-import authHelper from "~/helpers/auth-helper"
+import { mapActions, mapState, mapGetters } from 'vuex';
+import Loading from '~/components/Loading.vue';
+
 export default {
+  head() {
+    return {
+      title: this.currentSite.name,
+    };
+  },
   components: {
-    Loading
+    Loading,
   },
-  async mounted() {
-    const site_id = this.$route.params.id
-    const site = await authHelper.api.getSite({ site_id })
-    const deploys = await authHelper.api.listSiteDeploys({ site_id })
-    this.setCurrentSite(site)
-    this.setCurrentDeploys(deploys)
-    this.setTitle(site.name)
-    this.setLoading(false)
+  mounted() {
+    this.getSite(this.$route.params.id);
   },
-
   computed: {
-    ...mapState('nav', [
-      'loading'
-    ]),
-    ...mapState('sites', [
-      'currentSite',
-      'currentDeploys'
-    ]),
-    ...mapGetters('sites', [
-      'siteTitle',
-      'isDeployed',
-      'shortenCommitRef'
-    ])
+    ...mapState('sites', ['currentSite']),
+    ...mapGetters('sites', ['isLoading']),
   },
-
   methods: {
-    ...mapMutations('sites', [
-      'setCurrentSite',
-      'setCurrentDeploys'
-    ]),
-    ...mapMutations('nav', [
-      'setTitle',
-      'setLoading'
-    ])
-  }
-}
+    ...mapActions('sites', ['getSite', 'resetCurrentSite']),
+  },
+  beforeDestroy() {
+    this.resetCurrentSite();
+  },
+};
 </script>
 <style>
-  .site-details {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    cursor: pointer;
-  }
+.site-details {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 </style>
