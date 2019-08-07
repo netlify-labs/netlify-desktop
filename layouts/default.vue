@@ -11,7 +11,6 @@
       <img v-if="loggedIn" class="avatar" :src="userAvatar" />
     </header>
     <nuxt ref="page" />
-    <footer class="footer"></footer>
   </div>
 </template>
 <script>
@@ -47,7 +46,7 @@ export default {
 .content {
   height: 100vh;
   display: grid;
-  grid-template-rows: 50px auto 50px;
+  grid-template-rows: 50px auto;
 }
 .header,
 .footer {

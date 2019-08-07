@@ -15,11 +15,15 @@
   </div>
 </template>
 <script>
+import { remote } from 'electron';
 import { mapActions, mapState, mapGetters } from 'vuex';
+import ContainerWithFooter from '~/components/ContainerWithFooter.vue';
 import Loading from '~/components/Loading.vue';
 import List from '~/components/ui/List.vue';
 import ListItem from '~/components/ui/ListItem.vue';
 import Deploy from '~/components/Deploy.vue';
+
+const { Menu, MenuItem } = remote;
 
 export default {
   head() {
@@ -49,7 +53,7 @@ export default {
   },
   methods: {
     ...mapActions('sites', ['getSite', 'resetCurrentSite']),
-    ...mapActions('deploys', ['getDeploys']),
+    ...mapActions('deploys', ['getDeploys', 'triggerDeploy']),
   },
   beforeDestroy() {
     this.resetCurrentSite();
@@ -62,5 +66,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.btn {
+  margin-left: auto;
 }
 </style>

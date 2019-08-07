@@ -28,6 +28,7 @@ const mb = menubar({
   icon: path.join(__dirname, 'static/iconTemplate.png'),
   browserWindow: {
     width: 330,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
     },

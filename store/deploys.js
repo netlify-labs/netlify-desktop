@@ -19,6 +19,12 @@ export const actions = {
       commit('RECEIVE_DEPLOYS_SUCCESS', deploys);
     } catch (e) {
       commit('RECEIVE_DEPLOYS_ERROR');
+    }
+  },
+  async triggerDeploy(_, site_id) {
+    try {
+      await auth.api.createSiteBuild({ site_id });
+    } catch (e) {
       throw e;
     }
   },
