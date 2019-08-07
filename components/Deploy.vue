@@ -6,7 +6,11 @@
       commitRef
     }}</a>
     <BlockLink :href="deploy.admin_url + '/deploys/' + deploy.id" component="a">
-      <Badge :variant="statusVariant" :class="{ visuallyhidden: statusText === 'success' }">{{ statusText }}</Badge>
+      <Badge
+        :variant="statusVariant"
+        :class="{ visuallyhidden: statusText === 'success' }"
+        >{{ statusText }}</Badge
+      >
     </BlockLink>
   </div>
 </template>
@@ -15,11 +19,13 @@
 import BlockLink from './ui/BlockLink.vue';
 import Badge from './ui/Badge.vue';
 
-const IN_PROGRESS = "in-progress";
-const SKIPPED = "skipped";
-const SUCCESS = "success";
-const ERROR = "error";
-const REJECTED = "rejected";
+const IN_PROGRESS = 'in-progress';
+const SKIPPED = 'skipped';
+const SUCCESS = 'success';
+const ERROR = 'error';
+const REJECTED = 'rejected';
+const FAILED = 'failed';
+const PUBLISHED = 'published';
 
 export default {
   components: {
@@ -49,18 +55,20 @@ export default {
     },
     statusText() {
       if (this.lastDeployId === this.deploy.id) {
-        return 'published';
+        return PUBLISHED;
       }
 
       if (this.deploy.skipped) {
-        return 'skipped';
+        return SKIPPED;
       }
 
-      return {
-        ready: 'success',
-        done: 'success',
-        error: 'failed',
-      }[this.deploy.state] || this.deploy.state;
+      return (
+        {
+          ready: SUCCESS,
+          done: SUCCESS,
+          error: FAILED,
+        }[this.deploy.state] || this.deploy.state
+      );
     },
     statusVariant() {
       if (!this.deploy) {
@@ -76,7 +84,7 @@ export default {
           ready: SUCCESS,
           done: SUCCESS,
           error: ERROR,
-          rejected: REJECTED
+          rejected: REJECTED,
         }[this.deploy.state] || IN_PROGRESS
       );
     },
