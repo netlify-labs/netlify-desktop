@@ -65,7 +65,8 @@ export default {
 }
 
 .search {
-  background: none;
+  position: fixed;
+  background: white;
   border: 0;
   border-bottom: 2px solid hsl(180, 5%, 92%);
   box-shadow: none;
@@ -78,6 +79,7 @@ export default {
   margin: 0;
   padding: 6px 14px;
   width: 100%;
+  z-index: 1000;
 }
 
 .search:focus {
