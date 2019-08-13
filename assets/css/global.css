@@ -50,6 +50,7 @@ body {
 	display: inline-block;
 	font-family: inherit;
 	font-weight: 500;
+	font-size: inherit;
 	line-height: 24px;
 	outline: 0;
 	padding: 7px 15px;
@@ -81,6 +82,26 @@ body {
 .btn-secondary {
 	background-color: var(--secondary);
 	color: #000;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 700% 0%;
+  }
+}
+
+.btn.loading {
+  animation: loading 20s linear infinite;
+  background-image: url("~assets/img/loading-stripes-grey@2x.png");
+  background-origin: border-box;
+  background-position: 0% 0%;
+  background-repeat: repeat-x;
+  background-size: contain;
+  pointer-events: none;
 }
 
 .alert {

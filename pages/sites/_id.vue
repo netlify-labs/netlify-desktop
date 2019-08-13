@@ -3,6 +3,15 @@
     <Loading v-if="isLoading" :count="1" />
     <div v-else class="site-details">
       <h3>{{ currentSite.name }}</h3>
+      <button
+        :disabled="isDeploying"
+        :class="{ loading: isDeploying }"
+        type="button"
+        class="btn"
+        @click="triggerDeploy(siteId)"
+      >
+        Trigger deploy
+      </button>
     </div>
     <Loading v-if="isLoadingDeploys" :count="3" />
     <div v-else>
@@ -14,16 +23,13 @@
     </div>
   </div>
 </template>
+
 <script>
-import { remote } from 'electron';
 import { mapActions, mapState, mapGetters } from 'vuex';
-import ContainerWithFooter from '~/components/ContainerWithFooter.vue';
 import Loading from '~/components/Loading.vue';
 import List from '~/components/ui/List.vue';
 import ListItem from '~/components/ui/ListItem.vue';
 import Deploy from '~/components/Deploy.vue';
-
-const { Menu, MenuItem } = remote;
 
 export default {
   head() {
@@ -38,10 +44,8 @@ export default {
     Loading,
   },
   mounted() {
-    const siteId = this.$route.params.id;
-
-    this.getSite(siteId);
-    this.getDeploys(siteId);
+    this.getSite(this.siteId);
+    this.getDeploys(this.siteId);
   },
   computed: {
     ...mapState('sites', ['currentSite']),
@@ -49,7 +53,11 @@ export default {
     ...mapGetters('sites', ['isLoading', 'isDeployed']),
     ...mapGetters('deploys', {
       isLoadingDeploys: 'isLoading',
+      isDeploying: 'isDeploying',
     }),
+    siteId() {
+      return this.$route.params.id;
+    },
   },
   methods: {
     ...mapActions('sites', ['getSite', 'resetCurrentSite']),
@@ -60,15 +68,13 @@ export default {
   },
 };
 </script>
+
 <style>
 .site-details {
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 }
 
 .btn {
-  margin-left: auto;
+  margin-top: 8px;
 }
 </style>
