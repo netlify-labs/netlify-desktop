@@ -10,6 +10,7 @@ export const state = () => ({
 export const getters = {
   isLoading: state => state.state === 'loading',
   isError: state => state.state === 'error',
+  isDeployed: state => state.currentSite.deploy_id,
 };
 
 export const actions = {

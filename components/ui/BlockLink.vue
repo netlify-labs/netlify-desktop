@@ -1,6 +1,18 @@
 <template>
-  <NuxtLink v-bind="$attrs"><slot></slot></NuxtLink>
+  <component :is="component" v-bind="$attrs"><slot></slot></component>
 </template>
+
+<script>
+export default {
+  props: {
+    component: {
+      type: String,
+      required: false,
+      default: 'nuxt-link',
+    },
+  },
+};
+</script>
 
 <style scoped>
 a {

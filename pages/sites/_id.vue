@@ -1,14 +1,25 @@
 <template>
   <div class="scroll-panel">
-    <Loading v-if="isLoading" />
+    <Loading v-if="isLoading" :count="1" />
     <div v-else class="site-details">
       <h3>{{ currentSite.name }}</h3>
+    </div>
+    <Loading v-if="isLoadingDeploys" :count="3" />
+    <div v-else>
+      <List>
+        <ListItem v-for="deploy in deploys" :key="deploy.id">
+          <Deploy :deploy="deploy" :last-deploy-id="currentSite.deploy_id" />
+        </ListItem>
+      </List>
     </div>
   </div>
 </template>
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex';
 import Loading from '~/components/Loading.vue';
+import List from '~/components/ui/List.vue';
+import ListItem from '~/components/ui/ListItem.vue';
+import Deploy from '~/components/Deploy.vue';
 
 export default {
   head() {
@@ -17,17 +28,28 @@ export default {
     };
   },
   components: {
+    Deploy,
+    List,
+    ListItem,
     Loading,
   },
   mounted() {
-    this.getSite(this.$route.params.id);
+    const siteId = this.$route.params.id;
+
+    this.getSite(siteId);
+    this.getDeploys(siteId);
   },
   computed: {
     ...mapState('sites', ['currentSite']),
-    ...mapGetters('sites', ['isLoading']),
+    ...mapState('deploys', ['deploys']),
+    ...mapGetters('sites', ['isLoading', 'isDeployed']),
+    ...mapGetters('deploys', {
+      isLoadingDeploys: 'isLoading',
+    }),
   },
   methods: {
     ...mapActions('sites', ['getSite', 'resetCurrentSite']),
+    ...mapActions('deploys', ['getDeploys']),
   },
   beforeDestroy() {
     this.resetCurrentSite();
