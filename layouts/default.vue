@@ -8,14 +8,15 @@
         ></font-awesome-icon>
       </a>
       <h1 class="title">{{ title }}</h1>
-      <img v-if="loggedIn" class="avatar" :src="userAvatar" />
+      <img v-if="loggedIn && userAvatar" class="avatar" :src="userAvatar" />
     </header>
     <nuxt ref="page" />
     <footer class="footer"></footer>
   </div>
 </template>
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapState, mapGetters } from 'vuex';
+
 export default {
   head() {
     const self = this;
@@ -33,13 +34,17 @@ export default {
   },
   computed: {
     ...mapState('nav', ['backButton']),
-    ...mapState('auth', ['loggedIn']),
-    ...mapGetters('auth', ['userAvatar']),
+    ...mapState('user', ['loggedIn']),
+    ...mapGetters('user', ['userAvatar']),
   },
   methods: {
+    ...mapActions('user', ['getCurrentUser']),
     previousScreen() {
       this.$router.go(-1);
     },
+  },
+  watch: {
+    loggedIn: 'getCurrentUser',
   },
 };
 </script>
