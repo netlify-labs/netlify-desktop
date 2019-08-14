@@ -14,11 +14,13 @@ export const getters = {
 };
 
 export const actions = {
-  async getSites({ commit }) {
+  async getSites({ commit, rootState: { accounts } }) {
     commit('REQUEST_SITES');
 
     try {
-      const sites = await auth.api.listSites();
+      const sites = await auth.api.listSitesForAccount({
+        account_slug: accounts.currentAccount.slug,
+      });
 
       commit('RECEIVE_SITES_SUCCESS', sites);
     } catch (e) {

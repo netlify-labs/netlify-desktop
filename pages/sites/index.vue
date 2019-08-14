@@ -15,41 +15,51 @@
         <BlockLink
           :to="{ name: 'sites-id', params: { id: data.id } }"
           class="site-name"
-        >{{ data.custom_domain || data.name }}</BlockLink>
+          >{{ data.custom_domain || data.name }}</BlockLink
+        >
         <font-awesome-icon icon="chevron-right" class="icon" />
       </template>
     </FilteredList>
   </div>
 </template>
 <script>
-import { mapActions, mapState, mapGetters } from "vuex";
-import Loading from "~/components/Loading.vue";
-import BlockLink from "~/components/ui/BlockLink.vue";
-import FilteredList from "~/components/ui/FilteredList.vue";
+import { mapActions, mapState, mapGetters } from 'vuex';
+import Loading from '~/components/Loading.vue';
+import BlockLink from '~/components/ui/BlockLink.vue';
+import FilteredList from '~/components/ui/FilteredList.vue';
 
 export default {
   head() {
     return {
-      title: `Sites (${this.sites.length})`
+      title: `Sites (${this.sites.length})`,
+      metaInfo: {
+        headerComponent: 'AccountsList',
+      },
     };
   },
   components: {
     BlockLink,
     FilteredList,
-    Loading
+    Loading,
   },
-  mounted() {
+  async mounted() {
+    if (this.accounts.length === 0) {
+      await this.getAccounts();
+    }
+
     if (this.sites.length === 0) {
-      this.getSites();
+      await this.getSites();
     }
   },
   computed: {
-    ...mapGetters("sites", ["isLoading"]),
-    ...mapState("sites", ["sites"])
+    ...mapGetters('sites', ['isLoading']),
+    ...mapState('sites', ['sites']),
+    ...mapState('accounts', ['accounts']),
   },
   methods: {
-    ...mapActions("sites", ["getSites"])
-  }
+    ...mapActions('accounts', ['getAccounts']),
+    ...mapActions('sites', ['getSites']),
+  },
 };
 </script>
 <style scoped>
