@@ -6,39 +6,31 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex"
-import authHelper from "~/helpers/auth-helper"
+import { mapActions, mapState, mapMutations } from 'vuex';
+import authHelper from '~/helpers/auth-helper';
 export default {
   async created() {
     this.gotoDeploys();
   },
 
   computed: {
-    ...mapState('auth', [
-      'loggedIn'
-    ])
+    ...mapState('user', ['loggedIn']),
   },
 
   methods: {
+    ...mapActions('user', ['setLoggedIn']),
     async login() {
-      const token = await authHelper.login()
-      this.gotoDeploys()
-    },
-    setLoginState() {
-      this.setLoggedIn(authHelper.isLoggedIn)
+      const token = await authHelper.login();
+      this.gotoDeploys();
     },
     gotoDeploys() {
-      this.setLoginState()
-      if(this.loggedIn) {
-        this.$router.push({name: 'sites'})
+      this.setLoggedIn(authHelper.isLoggedIn);
+      if (this.loggedIn) {
+        this.$router.push({ name: 'sites' });
       }
     },
-    ...mapMutations('auth', [
-      'setUser',
-      'setLoggedIn'
-    ])
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
