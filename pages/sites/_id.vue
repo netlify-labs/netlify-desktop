@@ -3,7 +3,7 @@
     <Loading v-if="isLoading" :count="1" />
     <div v-else class="site-details">
       <h3>{{ currentSite.name }}</h3>
-      <button
+      <button v-if="isDeployed"
         :disabled="isDeploying"
         :class="{ loading: isDeploying }"
         type="button"
@@ -12,14 +12,20 @@
       >
         Trigger deploy
       </button>
+      <p v-else class="error">Site has not yet been deployed</p>
     </div>
     <Loading v-if="isLoadingDeploys" :count="3" />
     <div v-else>
-      <List>
+      <List v-if="isDeployed">
         <ListItem v-for="deploy in deploys" :key="deploy.id">
           <Deploy :deploy="deploy" :last-deploy-id="currentSite.deploy_id" />
         </ListItem>
       </List>
+      <section v-else class="deploy-message">
+        <h3>Deploy straight from Git</h3>
+        <p>Netlify will run your build command and deploy the result whenever you push to your Git repository, or if you prefer, drag a project folder to the deploy drop zone located at the bottom of the Deploys page.</p>
+        <a href="https://www.netlify.com/docs/continuous-deployment" class="action-link">Learn more about Deploys</a>
+      </section>
     </div>
   </div>
 </template>
@@ -72,6 +78,14 @@ export default {
 <style>
 .site-details {
   padding: 20px;
+  box-shadow: 0 2px 4px 0 rgba(14,30,37,.12);
+}
+
+.deploy-message {
+  padding: 20px;
+}
+.deploy-message p {
+  margin: 8px 0 0;
 }
 
 .btn {

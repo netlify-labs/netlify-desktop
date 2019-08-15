@@ -1,5 +1,6 @@
 const http = require('http');
 const path = require('path');
+const { shell } = require('electron')
 const { Nuxt, Builder } = require('nuxt');
 const { menubar } = require('menubar');
 
