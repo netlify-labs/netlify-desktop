@@ -3,16 +3,20 @@
     <Loading v-if="isLoading" :count="1" />
     <div v-else class="site-details">
       <h3>{{ currentSite.name }}</h3>
-      <button v-if="isDeployed"
-        :disabled="isDeploying"
-        :class="{ loading: isDeploying }"
-        type="button"
-        class="btn"
-        @click="triggerDeploy(siteId)"
-      >
-        Trigger deploy
-      </button>
-      <p v-else class="error">Site has not yet been deployed</p>
+      <div class="site-actions-container">
+        <a :href="currentSite.admin_url" class="btn">Open</a>
+        <button
+          v-if="isDeployed"
+          :disabled="isDeploying"
+          :class="{ loading: isDeploying }"
+          type="button"
+          class="btn"
+          @click="triggerDeploy(siteId)"
+        >
+          Trigger deploy
+        </button>
+      </div>
+      <p v-if="!isDeployed" class="error">Site has not yet been deployed</p>
     </div>
     <Loading v-if="isLoadingDeploys" :count="3" />
     <div v-else>
@@ -23,8 +27,16 @@
       </List>
       <section v-else class="deploy-message">
         <h3>Deploy straight from Git</h3>
-        <p>Netlify will run your build command and deploy the result whenever you push to your Git repository, or if you prefer, drag a project folder to the deploy drop zone located at the bottom of the Deploys page.</p>
-        <a href="https://www.netlify.com/docs/continuous-deployment" class="action-link">Learn more about Deploys</a>
+        <p>
+          Netlify will run your build command and deploy the result whenever you
+          push to your Git repository, or if you prefer, drag a project folder
+          to the deploy drop zone located at the bottom of the Deploys page.
+        </p>
+        <a
+          href="https://www.netlify.com/docs/continuous-deployment"
+          class="action-link"
+          >Learn more about Deploys</a
+        >
       </section>
     </div>
   </div>
@@ -78,7 +90,7 @@ export default {
 <style>
 .site-details {
   padding: 20px;
-  box-shadow: 0 2px 4px 0 rgba(14,30,37,.12);
+  box-shadow: 0 2px 4px 0 rgba(14, 30, 37, 0.12);
 }
 
 .deploy-message {
@@ -90,5 +102,13 @@ export default {
 
 .btn {
   margin-top: 8px;
+}
+
+.site-actions-container {
+  display: flex;
+}
+
+.site-actions-container .btn {
+  margin-right: 8px;
 }
 </style>

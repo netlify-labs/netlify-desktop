@@ -1,9 +1,8 @@
 const http = require('http');
 const path = require('path');
-const { shell } = require('electron')
+const { shell } = require('electron');
 const { Nuxt, Builder } = require('nuxt');
 const { menubar } = require('menubar');
-const { shell } = require('electron');
 
 let config = require('./nuxt.config.js');
 config.rootDir = __dirname; // for electron-builder
