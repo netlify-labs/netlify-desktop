@@ -38,8 +38,6 @@ const mb = menubar({
 });
 
 mb.on('after-create-window', () => {
-  mb.window.setAlwaysOnTop(config.dev);
-
   mb.window.webContents.on('will-navigate', (event, url) => {
     if (!url.startsWith('http://localhost')) {
       event.preventDefault();
