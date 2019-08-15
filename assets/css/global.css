@@ -40,28 +40,28 @@ body {
 
 .btn {
 	cursor: pointer;
-    align-self: center;
-    background-color: #fff;
-    border: 1px solid #e9ebeb;
-    border-bottom: 1px solid #e1e2e4;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px 0 rgba(14,30,37,.12);
-    color: rgba(14,30,37,.87);
-    display: inline-block;
-    font-family: inherit;
-    font-weight: 500;
-    line-height: 24px;
-    min-width: 168px;
-    outline: 0;
-    padding: 7px 15px;
-    position: relative;
-    text-align: center;
-    text-decoration: none;
-    transition: .2s ease;
-    transition-property: all;
-    transition-property: background-color,border,box-shadow;
-    vertical-align: middle;
-    width: auto;
+	align-self: center;
+	background-color: #fff;
+	border: 1px solid #e9ebeb;
+	border-bottom: 1px solid #e1e2e4;
+	border-radius: 4px;
+	box-shadow: 0 2px 4px 0 rgba(14,30,37,.12);
+	color: rgba(14,30,37,.87);
+	display: inline-block;
+	font-family: inherit;
+	font-weight: 500;
+	font-size: inherit;
+	line-height: 24px;
+	outline: 0;
+	padding: 7px 15px;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	transition: .2s ease;
+	transition-property: all;
+	transition-property: background-color,border,box-shadow;
+	vertical-align: middle;
+	width: auto;
 }
 .btn:hover {
 	background-color: #f4f4f4;
@@ -84,11 +84,24 @@ body {
 	color: #000;
 }
 
-.alert {
-	background: #FFFBD6;
-	padding: 5px;
-	border: 1px solid #CCC;
-	border-radius: 5px;
+@keyframes loading {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 700% 0%;
+  }
+}
+
+.btn.loading {
+  animation: loading 20s linear infinite;
+  background-image: url("~assets/img/loading-stripes-grey@2x.png");
+  background-origin: border-box;
+  background-position: 0% 0%;
+  background-repeat: repeat-x;
+  background-size: contain;
+  pointer-events: none;
 }
 
 .scroll-panel {
@@ -98,4 +111,19 @@ body {
 ul {
 	list-style-type: none;
 	padding: 0;
+}
+
+.action-link {
+	background: 0 0;
+	border: 0;
+	color: #00ad9e;
+	display: inline-block;
+	font-weight: 600;
+	text-decoration: none;
+	margin-top: 8px;
+}
+
+.error {
+	color: #ae3227;
+	font-weight: 500px;
 }

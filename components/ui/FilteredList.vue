@@ -86,4 +86,8 @@ export default {
   outline: 0;
   border-color: hsl(46, 100%, 48%);
 }
+
+ul {
+  padding: 40px 0 0 0;
+}
 </style>

@@ -1,5 +1,6 @@
 const http = require('http');
 const path = require('path');
+const { shell } = require('electron')
 const { Nuxt, Builder } = require('nuxt');
 const { menubar } = require('menubar');
 const { shell } = require('electron');
@@ -29,6 +30,7 @@ const mb = menubar({
   icon: path.join(__dirname, 'static/iconTemplate.png'),
   browserWindow: {
     width: 330,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
     },
