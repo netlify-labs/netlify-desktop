@@ -5,6 +5,8 @@ import {
   faChevronRight,
   faChevronLeft,
   faCircle,
+  faChevronDown,
+  faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 
 // This is important, we are going to let Nuxt.js worry about the CSS
@@ -15,6 +17,8 @@ config.autoAddCss = false;
 library.add(faChevronRight);
 library.add(faChevronLeft);
 library.add(faCircle);
+library.add(faChevronDown);
+library.add(faCheck);
 
 // Register the component globally
 Vue.component('font-awesome-icon', FontAwesomeIcon);

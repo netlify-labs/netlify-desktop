@@ -106,6 +106,7 @@ body {
 
 .scroll-panel {
 	overflow: auto;
+	z-index: 1;
 }
 
 ul {

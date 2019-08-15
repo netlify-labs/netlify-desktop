@@ -25,7 +25,7 @@ module.exports = {
     '@/assets/css/global.css',
     '@fortawesome/fontawesome-svg-core/styles.css',
   ],
-  plugins: ['~/plugins/fontawesome.js'],
+  plugins: ['~/plugins/fontawesome.js', '~/plugins/global.js'],
   router: {
     middleware: ['back-button'],
   },
